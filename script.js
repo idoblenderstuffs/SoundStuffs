@@ -14,19 +14,11 @@ let SELECT = false;
 let STLENGTH = 0;
 let RELENGTH = 0;
 
-let SELECTEDOSC = 0;
-let SECECTOSC = false;
-
 let NOTES = ["E6", "D6", "C6", "B5", "A5", "G5", "F5", "E5", "D5", "C5", "B4", "A4", "G4", "F4", "E4", "D4", "C4", "B3", "A3", "G3", "F3"];
 
 let FREQ = [1318.51, 1174.66, 1046.5, 987.767, 880, 783.991, 698.45, 659.255, 587.33, 523.251, 493.883, 436.04, 392.44, 349.228, 329.620, 293.665, 261.626, 246.942, 222, 195.998, 174.614];
 
 let MOVING_NOTES = [];
-let OSC_POINTS = [
-    {x:0.0, y:1.0},
-    {x:0.5, y:0.5},
-    {x:1.0, y:0.0}
-];
 
 let AUDIO_CONTEXT;
 
@@ -66,21 +58,16 @@ class MovingNote{
 
 function main() {
     STAVE = document.getElementById("staveCanvas");
-    OSC = document.getElementById("oscillatorCanvas")
     MOVING_NOTES.push(new MovingNote(-10, -10));
     fitToScreen();
     addEventListeners();
     drawStave();
-    drawOscillator();
     animate();
 }
 function addEventListeners() {
     STAVE.addEventListener("mousemove", onMouseMoveStave);
     STAVE.addEventListener("mousedown", onMouseDownStave);
     STAVE.addEventListener("mouseup", onMouseUpStave);
-    OSC.addEventListener("mousemove", onMouseMoveOsc);
-    OSC.addEventListener("mousedown", onMouseDownOsc);
-    OSC.addEventListener("mouseup", onMouseUpOsc);
     window.addEventListener("resize", fitToScreen);
 }
 function fitToScreen() {
@@ -93,7 +80,6 @@ function fitToScreen() {
 function animate() {
     updatePlayhead();
     drawStave();
-    drawOscillator();
     window.requestAnimationFrame(animate);
 }
 
@@ -216,21 +202,6 @@ function drawNote(ctx, location, style, i) {
      SPACING*drawWidth, SPACING);}
 }
 
-function onMouseMoveOsc(event) {
-    OSCMOUSE.x = event.x-10;
-    OSCMOUSE.y = event.y-390;
-}
-function onMouseDownOsc(event) {
-    for (let i = 0; i < OSC_POINTS.length; i++) {
-        if (OSCMOUSE.x >= OSC_POINTS[i].x*OSC.width-5 && OSCMOUSE.x <= OSC_POINTS[i].x*OSC.width+5 &&
-            OSCMOUSE.y >= -OSC_POINTS[i].y*OSC.height+OSC.height-5 && OSCMOUSE.y <= -OSC_POINTS[i].y*OSC.height+OSC.height+5) {
-            OSC_POINTS[i].x = OSCMOUSE.x/OSC.width+5; console.log(OSC_POINTS[i].x)
-        }
-    }
-}
-function onMouseUpOsc(event) {
-}
-
 function drawStave() {
     let ctx = STAVE.getContext("2d");
     ctx.clearRect(0, 0, STAVE.width, STAVE.height);
@@ -254,20 +225,4 @@ function drawStave() {
     }
 
     ctx.fillRect(PLAYHEAD.x-SPACING, 0, 2, STAVE.height);
-}
-
-function drawOscillator() {
-    let ctx = OSC.getContext("2d");
-    ctx.clearRect(0, 0, OSC.width, OSC.height);
-    ctx.strokeStyle = "white";
-    ctx.fillStyle = "white";
-    ctx.lineWidth = 1;
-
-    ctx.moveTo(OSC_POINTS[0].x*OSC.width-5, -OSC_POINTS[0].y*OSC.height+OSC.height-5);
-    ctx.quadraticCurveTo(OSC_POINTS[1].x*OSC.width-5, -OSC_POINTS[1].y*OSC.height+OSC.height-5, OSC_POINTS[2].x*OSC.width-5, -OSC_POINTS[2].y*OSC.height+OSC.height-5);
-    ctx.stroke();
-
-    for (let i = 0; i < OSC_POINTS.length; i++) {
-        ctx.fillRect(OSC_POINTS[i].x*OSC.width-5, -OSC_POINTS[i].y*OSC.height+OSC.height-5, 10, 10);
-    }
 }
