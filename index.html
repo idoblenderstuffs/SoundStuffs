@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <title>SoundStuffs DAW</title>
+
+<style>
+
+body {
+    background-color: black;
+    color: white;
+}
+
+input {
+    width: 50px;
+    height: 28px;
+    margin-left: 5px;
+}
+button {
+    padding-left: 10px; padding-right: 10px;
+    height: 35px;
+    font-size: 20px;
+}
+
+canvas {
+    width: 500;
+    height: 300;
+    border-style: solid;
+    border-color: white;
+    border-width: 1px;
+}
+
+.slider {
+    width: 100px;
+}
+
+</style>
+
+  </head>
+  <body onload="main()">
+
+    <!-- header controls -->
+        <label>BPM</label><input type="text">
+        <button onclick="movePlayhead(0)" id="restartButton">⟳</button>
+        <button onclick="togglePlayhead()" id="playButton">></button>
+        <button onclick="createTool()">+</button>
+        <button onclick="deleteTool()">-</button>
+        <button onclick="moveTool()">✥</button>
+        <button onclick="lengthTool()">↔</button>
+        <label id="noteLabel"></label>
+        <button onclick="saveFile()">Save</button>
+
+    <br><br>
+    <canvas id="staveCanvas"></canvas>
+    <br><br>
+
+    <!-- oscillator controls -->
+    <canvas id="oscillatorCanvas"></canvas>
+
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>
