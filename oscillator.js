@@ -35,7 +35,7 @@ function onMouseDownOsc(event) {
     for (let i = 0; i < OSC_POINTS.length; i++) {
         if (OSCMOUSE.x >= OSC_POINTS[i].x*OSC.width-5 && OSCMOUSE.x <= OSC_POINTS[i].x*OSC.width+5 &&
             OSCMOUSE.y >= -OSC_POINTS[i].y*OSC.height+OSC.height-5 && OSCMOUSE.y <= -OSC_POINTS[i].y*OSC.height+OSC.height+5) {
-            OSC_POINTS[i].x = OSCMOUSE.x/OSC.width+5; console.log(OSC_POINTS[i].x)
+            OSC_POINTS[i].x = OSCMOUSE.x/OSC.width;
         }
     }
 }
